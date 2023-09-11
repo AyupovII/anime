@@ -3,7 +3,7 @@ import { styled } from "styled-components";
 
 const AnimeList = () => {
   const animeList = useSelector((state: any) => state.todos.data);
-
+  console.log(animeList);
   const FlexBox = styled.div`
     display: flex;
     flex-wrap: wrap;
@@ -14,7 +14,7 @@ const AnimeList = () => {
   const Box = styled.div`
     padding-bottom: 15px;
     cursor: pointer;
-    max-width: 284px;
+    max-width: 100px;
     &:hover{
       background-color: rgba(0,0,0,0.3);
       filter: brightness(40%);
@@ -31,7 +31,12 @@ const AnimeList = () => {
   `
   const Title = styled.div`
     text-align: center;
-    font-size: 20px
+    font-size: 15px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
   `
   return (
     <FlexBox>
@@ -39,10 +44,13 @@ const AnimeList = () => {
         animeList.map((anime: any) => {
           return (
             <Box>
-              <img src={anime.attributes.posterImage.small} alt={anime.attributes.slug} width={"284px"} />
+              <img
+                src={"https://shikimori.one/" + anime.image.x96}
+                alt={anime.russian} width={"100px"}
+              />
               <Title>
                 {
-                  anime.attributes.titles.en ?? anime.attributes.titles.en_jp
+                  anime.russian ? anime.russian : anime.name
                 }</Title>
             </Box>
 

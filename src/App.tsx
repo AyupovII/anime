@@ -11,8 +11,7 @@ function App() {
   const animeList = useSelector((state: any)=> state.todos.data);
   console.log(animeList);
   useEffect(()=>{
-    dispatch(fetchTodos() as unknown as AnyAction)
-    
+    dispatch(fetchTodos({search: ""}) as unknown as AnyAction)
   },[])
   return (
     <div className="App">

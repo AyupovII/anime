@@ -1,8 +1,11 @@
 import styled from "styled-components";
 import loopIcon from "../../assest/img/loop.png"
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useGetPokemonByNameQuery } from "../../services/anime";
 import AnimeList from "../AnimeList";
+import { fetchTodos, setSearch } from "../../toolkitRedux/toolkitReducer";
+import { useDispatch, useSelector } from "react-redux";
+import { AnyAction } from "@reduxjs/toolkit";
 
 const Main = styled.div`
   padding: 10px 40px 10px 40px;
@@ -35,12 +38,21 @@ const InputContainer = styled.div`
    } 
   `
 const Content = () => {
-
+  const search = useSelector((state: any) => state.todos.search);
+  console.log(search);
+  const dispatch = useDispatch();
+// const [search, setSearch]= useState();
+const onChange = (e: React.FormEvent<HTMLInputElement>)=>{
+  dispatch(setSearch(e.currentTarget.value));
+}
+useEffect(()=>{
+  dispatch(fetchTodos({search}) as unknown as AnyAction)
+},[search])
   return <Main>
     <H1>Поиск аниме</H1>
     <InputContainer>
       <img src={loopIcon} alt="Поиск" />
-      <input type="text" placeholder="Что вы ищете?" />
+      <input type="text" placeholder="Что вы ищете?" onChange={onChange}/>
     </InputContainer>
     <AnimeList />
   </Main>
