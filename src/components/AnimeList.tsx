@@ -1,14 +1,17 @@
-import { useSelector } from "react-redux";
+import { useCallback, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { styled } from "styled-components";
+import { fetchTodos, setIsAccumlateData, setParams } from "../toolkitRedux/toolkitReducer";
+import { AnyAction } from "@reduxjs/toolkit";
 
 const AnimeList = () => {
   const animeList = useSelector((state: any) => state.todos.data);
-  console.log(animeList);
+  const loading = useSelector((state: any) => state.todos.loading);
   const FlexBox = styled.div`
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: space-between;
     column-gap: 15px;
   `
   const Box = styled.div`
@@ -38,15 +41,37 @@ const AnimeList = () => {
     overflow: hidden;
     text-overflow: ellipsis;
   `
-  return (
-    <FlexBox>
+  const dispatch = useDispatch();
+
+  const observer = useRef<IntersectionObserver | null>(null);
+  const params = useSelector((state: any) => state.todos.params);
+  const hasMore = useSelector((state: any) => state.todos.hasMore);
+  const observerBlock = useCallback((node: HTMLInputElement) => {
+    if (loading) return
+    if (observer.current) observer.current.disconnect();
+    observer.current = new IntersectionObserver(enteries => {
+      console.log("Visible1", hasMore);
+
+      if (enteries[0].isIntersecting && hasMore) {
+        dispatch(setIsAccumlateData(true));
+        dispatch(fetchTodos(params) as unknown as AnyAction)
+        dispatch(setParams({ page: params.page + 1 }))
+        console.log("Visible");
+      }
+    })
+    if (node) observer.current.observe(node);
+  }, [hasMore, loading, params]);
+
+  return (<>
+    {<FlexBox>
       {
-        animeList.map((anime: any) => {
+        animeList.map((anime: any, index: number) => {
           return (
-            <Box>
+
+            <Box ref={(animeList.length === index + 1) ? observerBlock : null}>
               <img
                 src={"https://shikimori.one/" + anime.image.x96}
-                alt={anime.russian} width={"100px"}
+                alt={anime.russian} width={"100px"} height={"150px"}
               />
               <Title>
                 {
@@ -57,7 +82,8 @@ const AnimeList = () => {
           )
         })
       }
-    </FlexBox>
+    </FlexBox>}
+  </>
   )
 }
 

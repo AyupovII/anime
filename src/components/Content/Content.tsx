@@ -1,9 +1,8 @@
 import styled from "styled-components";
 import loopIcon from "../../assest/img/loop.png"
-import { useEffect, useState } from "react";
-import { useGetPokemonByNameQuery } from "../../services/anime";
+import { useEffect } from "react";
 import AnimeList from "../AnimeList";
-import { fetchTodos, setSearch } from "../../toolkitRedux/toolkitReducer";
+import { fetchTodos, setIsAccumlateData, setParams } from "../../toolkitRedux/toolkitReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { AnyAction } from "@reduxjs/toolkit";
 
@@ -38,21 +37,21 @@ const InputContainer = styled.div`
    } 
   `
 const Content = () => {
-  const search = useSelector((state: any) => state.todos.search);
-  console.log(search);
+  const params = useSelector((state: any) => state.todos.params);
   const dispatch = useDispatch();
-// const [search, setSearch]= useState();
-const onChange = (e: React.FormEvent<HTMLInputElement>)=>{
-  dispatch(setSearch(e.currentTarget.value));
-}
-useEffect(()=>{
-  dispatch(fetchTodos({search}) as unknown as AnyAction)
-},[search])
+  const onChange = (e: React.FormEvent<HTMLInputElement>) => {
+    dispatch(setParams({ search: e.currentTarget.value, page: 0 }));
+    dispatch(setIsAccumlateData(false));
+  }
+  useEffect(() => {
+    dispatch(fetchTodos(params) as unknown as AnyAction);
+  }, [params])
+
   return <Main>
     <H1>Поиск аниме</H1>
     <InputContainer>
       <img src={loopIcon} alt="Поиск" />
-      <input type="text" placeholder="Что вы ищете?" onChange={onChange}/>
+      <input type="text" placeholder="Что вы ищете?" onChange={onChange} />
     </InputContainer>
     <AnimeList />
   </Main>
