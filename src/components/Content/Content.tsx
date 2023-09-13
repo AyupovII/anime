@@ -5,11 +5,8 @@ import AnimeList from "../AnimeList";
 import { fetchTodos, setIsAccumlateData, setParams } from "../../toolkitRedux/toolkitReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { AnyAction } from "@reduxjs/toolkit";
+import { Main } from "../../styles/global";
 
-const Main = styled.div`
-  padding: 10px 40px 10px 40px;
-  background-color: #f7f7f7;
-  `;
 
 const H1 = styled.div`
 color: black;
@@ -36,22 +33,28 @@ const InputContainer = styled.div`
     padding: 12px;
    } 
   `
+
 const Content = () => {
+
   const params = useSelector((state: any) => state.todos.params);
+  const search = useSelector((state: any) => state.todos.params.search);
   const dispatch = useDispatch();
   const onChange = (e: React.FormEvent<HTMLInputElement>) => {
-    dispatch(setParams({ search: e.currentTarget.value, page: 0 }));
+    dispatch(setParams({ search: e.currentTarget.value, page: 1 }));
     dispatch(setIsAccumlateData(false));
+    dispatch(fetchTodos({...params, search: e.currentTarget.value}) as unknown as AnyAction);
   }
+
   useEffect(() => {
     dispatch(fetchTodos(params) as unknown as AnyAction);
-  }, [params])
+    console.log(2);
+  }, [search])
 
   return <Main>
     <H1>Поиск аниме</H1>
     <InputContainer>
       <img src={loopIcon} alt="Поиск" />
-      <input type="text" placeholder="Что вы ищете?" onChange={onChange} />
+      <input type="text" placeholder="Что вы ищете?" value={search} onChange={onChange} />
     </InputContainer>
     <AnimeList />
   </Main>

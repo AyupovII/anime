@@ -3,18 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { styled } from "styled-components";
 import { fetchTodos, setIsAccumlateData, setParams } from "../toolkitRedux/toolkitReducer";
 import { AnyAction } from "@reduxjs/toolkit";
+import { NavLink, useRoutes } from "react-router-dom";
+import { FlexBox } from "../styles/global";
 
-const AnimeList = () => {
-  const animeList = useSelector((state: any) => state.todos.data);
-  const loading = useSelector((state: any) => state.todos.loading);
-  const FlexBox = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    justify-content: space-between;
-    column-gap: 15px;
-  `
-  const Box = styled.div`
+const Box = styled.div`
     padding-bottom: 15px;
     cursor: pointer;
     max-width: 100px;
@@ -32,7 +24,7 @@ const AnimeList = () => {
       width: 15%;
     } */
   `
-  const Title = styled.div`
+const Title = styled.div`
     text-align: center;
     font-size: 15px;
     display: -webkit-box;
@@ -41,6 +33,10 @@ const AnimeList = () => {
     overflow: hidden;
     text-overflow: ellipsis;
   `
+const AnimeList = () => {
+  const animeList = useSelector((state: any) => state.todos.data) as Array<any>;
+  const loading = useSelector((state: any) => state.todos.loading);
+
   const dispatch = useDispatch();
 
   const observer = useRef<IntersectionObserver | null>(null);
@@ -54,31 +50,33 @@ const AnimeList = () => {
 
       if (enteries[0].isIntersecting && hasMore) {
         dispatch(setIsAccumlateData(true));
-        dispatch(fetchTodos(params) as unknown as AnyAction)
         dispatch(setParams({ page: params.page + 1 }))
-        console.log("Visible");
+        dispatch(fetchTodos(params) as unknown as AnyAction);
       }
     })
     if (node) observer.current.observe(node);
-  }, [hasMore, loading, params]);
+  }, [hasMore, loading]);
 
   return (<>
     {<FlexBox>
       {
-        animeList.map((anime: any, index: number) => {
+        animeList?.map((anime: any, index: number) => {
           return (
-
-            <Box ref={(animeList.length === index + 1) ? observerBlock : null}>
-              <img
-                src={"https://shikimori.one/" + anime.image.x96}
-                alt={anime.russian} width={"100px"} height={"150px"}
-              />
-              <Title>
-                {
-                  anime.russian ? anime.russian : anime.name
-                }</Title>
-            </Box>
-
+            <NavLink to={`${anime.id}`} >
+              <Box
+                key={`${index}_${anime.id}`}
+                ref={(animeList?.length === index + 1) ? observerBlock : null}
+              >
+                <img
+                  src={"https://shikimori.one/" + anime.image.x96}
+                  alt={anime.russian} width={"100px"} height={"150px"}
+                />
+                <Title>
+                  {
+                    anime.russian ? anime.russian : anime.name
+                  }</Title>
+              </Box>
+            </NavLink>
           )
         })
       }

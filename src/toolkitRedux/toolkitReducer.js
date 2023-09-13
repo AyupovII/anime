@@ -4,8 +4,7 @@ import axios from "axios";
 export const fetchTodos = createAsyncThunk('todos/fetchTodos',
   /**  @param params {{ search?: string, page?: number }} */
   async (params) => {
-    console.log(params);
-    const { data } = await axios.get("https://shikimori.one/api/animes?limit=25&", { params });
+    const { data } = await axios.get("https://shikimori.one/api/animes", { params });
     return data;
   })
 
@@ -17,18 +16,14 @@ const todoSlice = createSlice({
     isAccumlateData: false,
     hasMore: true,
     params: {
-      limit: 25,
+      limit: 50,
       search: "",
-      page: 0,
-    }
+      page: 1,
+    },
+    ///////////
+    animeData: {}
   },
   reducers: {
-    // fetchTodoExample: async  (state, action) =>{
-    //   const response = await axios.get("https://shikimori.one/api/animes?limit=23");
-    //   console.log(response);
-    //   const data = await response.json();
-    //   return data;
-    // },
     setParams: (state, action)=>{
       state.params={...state.params, ...action.payload}
     },
@@ -44,10 +39,18 @@ const todoSlice = createSlice({
       state.data = state.isAccumlateData ? [...state.data, ...action.payload] : action.payload;
       state.loading = false;
       state.hasMore = action.payload.length >= state.params.limit;
-      console.log(action.payload.length > state.params.limit);
-      console.log(action.payload)
     },
     [fetchTodos.rejected]: (state, action) => { },
+    //////////////////////
+    // [fetchAnime.pending]: (state, action) => {
+    //   state.loading = true;
+    // },
+    // [fetchAnime.fulfilled]: (state, action) => {
+    //   console.log(111111111111);
+    //   state.animeData = action.payload;
+    //   state.loading = false;
+    // },
+    // [fetchAnime.rejected]: (state, action) => { },
   }
 });
 

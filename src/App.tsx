@@ -1,14 +1,21 @@
+import { Navigate, Route, Routes } from 'react-router-dom';
 import './App.css';
-import Content from './components/Content/Content';
 import Header from './components/Header/Header';
-import ScrollButton from './components/ScrollButton';
+import Home from './pages/Home';
+import Anime from './pages/Anime';
 
 function App() {
   return (
     <div className="App">
       <Header />
-      <Content />
-      <ScrollButton/>
+      <Routes>
+        
+        <Route path="/" element={<Navigate to="/anime" />} />
+        <Route path="/anime" element={<Home />} />
+        <Route path="/anime/:id" element={<Anime />} />
+      </Routes>
+
+
     </div>
   );
 }

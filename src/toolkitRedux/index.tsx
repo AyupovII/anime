@@ -1,8 +1,11 @@
-import {combineReducers, configureStore} from "@reduxjs/toolkit";
+import {applyMiddleware, combineReducers, createStore} from "@reduxjs/toolkit";
 import toolkitReducer from "./toolkitReducer";
+import thunk from 'redux-thunk'
+import anime from "./anime";
 
-export const store = configureStore({
-  reducer: {
-    todos: toolkitReducer
-  },
-})
+const reducer = combineReducers({
+  todos: toolkitReducer,
+  anime,
+});
+
+export const store = createStore(reducer, applyMiddleware(thunk));
