@@ -20,17 +20,14 @@ const BoxItem = styled.div`
       width: 150px;
     }
      @media (max-width: 580px){
-      width: 200px
+      width: 180px
     }
     }
    
     @media (max-width: 600px){
       width: 150px
     } @media (max-width: 580px){
-      width: 200px
-    }
-    @media (max-width: 520px){
-      width: 300px
+      width: 180px
     }
   `
 const Title = styled.div`
