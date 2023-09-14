@@ -19,16 +19,11 @@ const BoxItem = styled.div`
       @media (max-width: 600px){
       width: 150px;
     }
-     @media (max-width: 580px){
-      width: 180px
-    }
     }
    
     @media (max-width: 600px){
       width: 150px
-    } @media (max-width: 580px){
-      width: 180px
-    }
+    } 
   `
 const Title = styled.div`
     text-align: center;
