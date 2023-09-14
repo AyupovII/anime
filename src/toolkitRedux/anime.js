@@ -1,7 +1,7 @@
 import { createReducer, createAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-  export const fetchAnime = createAsyncThunk('todos/fetchTodos',
+  export const fetchAnime = createAsyncThunk('anime/fetchAnime',
   /**  @param id {id: number} */
   async (id) => {
     const { data } = await axios.get(`https://shikimori.one/api/animes/${id}`);
@@ -25,7 +25,7 @@ const anime = createSlice({
       state.loading = true;
     },
     [fetchAnime.fulfilled]: (state, action) => {
-      console.log(111111111111);
+      console.log("111111111111", action.payload);
       state.animeData = action.payload;
       state.loading = false;
     },

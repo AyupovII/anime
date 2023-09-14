@@ -1,4 +1,4 @@
-import Content from "../components/Content/Content";
+import Content from "../components/Content";
 import ScrollButton from "../components/ScrollButton";
 
 const Home = () => {

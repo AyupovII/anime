@@ -17,56 +17,58 @@ const Anime = () => {
 
   const InfoBLock = styled.div`
     min-width: 150px;
+    
   `
   return (<Main>
     <div>
       {data.russian + " / " + data.name}
     </div>
-    <FlexBox direction="column"><FlexBox>
+    <FlexBox direction="column" ><FlexBox style={{ justifyContent: "normal", columnGap: "30px" }}>
       <InfoBLock>
         <img
           src={"https://shikimori.one/" + data.image?.original}
           alt={data.name}
         />
       </InfoBLock>
-      
-        {/* //////////// */}
 
-        {/* /////////////// */}
+      {/* //////////// */}
+
+      {/* /////////////// */}
+      <InfoBLock>
+        <TitleBlock>ИНФОРМАЦИЯ</TitleBlock>
+        <div>Тип: {data.kind}</div>
+        <div>Эпизоды: {data.episodes}</div>
+        <div>Длительность эпизода: {data.duration} мин</div>
+        <div>Статус:{data.status}</div>
+        <div>Жанр: {data.genres?.[0].russian}</div>
+        <div>Рейтинг: {data.rating}</div>
+        <div>Альтернативные названия: {data.license_name_ru}</div>
+        <div>У аниме: {data.kind}</div>
+      </InfoBLock>
+      <FlexBox direction={"column"} style={{ justifyContent: "normal" }}>
+        {/* ////////////////// */}
         <InfoBLock>
-          <TitleBlock>ИНФОРМАЦИЯ</TitleBlock>
-          <div>Тип: {data.kind}</div>
-          <div>Эпизоды: {data.episodes}</div>
-          <div>Длительность эпизода: {data.duration} мин</div>
-          <div>Статус:{data.status}</div>
-          <div>Жанр: {data.genres?.[0].russian}</div>
-          <div>Рейтинг: {data.rating}</div>
-          <div>Альтернативные названия: {data.license_name_ru}</div>
-          <div>У аниме: {data.kind}</div>
+          <TitleBlock>РЕЙТИНГ</TitleBlock>
+          <div>{data.score}</div>
+          <ReactStars
+            value={data.score / 2}
+            edit={false}
+            count={5}
+            size={50}
+            color2={'#ffd700'} />
         </InfoBLock>
-        <FlexBox direction={"column"} style={{justifyContent: "normal"}}>
-          {/* ////////////////// */}
-          <InfoBLock>
-            <TitleBlock>РЕЙТИНГ</TitleBlock>
-            <div>{data.score}</div>
-            <ReactStars
-              value={data.score / 2}
-              edit={false}
-              count={5}
-              size={50}
-              color2={'#ffd700'} />
-          </InfoBLock>
-          {/* ///////////// */}
-          <InfoBLock>
-            <TitleBlock>СТУДИИ</TitleBlock>
-            <div>{data.studios?.map(({ name }: { name: string }) => name).join(", ")}</div>
-          </InfoBLock>
-        </FlexBox>
-
+        {/* ///////////// */}
+        <InfoBLock>
+          <TitleBlock>СТУДИИ</TitleBlock>
+          <div>{data.studios?.map(({ name }: { name: string }) => name).join(", ")}</div>
+        </InfoBLock>
       </FlexBox>
+
+    </FlexBox>
       <InfoBLock>
         <TitleBlock>ОПИСАНИЕ</TitleBlock>
-        <div>Тип: {data.description}</div>
+        <div><script>{data.description_html}</script></div>
+        <div dangerouslySetInnerHTML={{ __html: data.description_html }} />
       </InfoBLock>
     </FlexBox>
   </Main>)

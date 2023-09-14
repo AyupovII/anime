@@ -1,11 +1,11 @@
 import styled from "styled-components";
-import loopIcon from "../../assest/img/loop.png"
+import loopIcon from "../assest/img/loop.png"
 import { useEffect } from "react";
-import AnimeList from "../AnimeList";
-import { fetchTodos, setIsAccumlateData, setParams } from "../../toolkitRedux/toolkitReducer";
+import AnimeList from "./AnimeList";
+import { fetchTodos, setIsAccumlateData, setParams } from "../toolkitRedux/toolkitReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { AnyAction } from "@reduxjs/toolkit";
-import { Main } from "../../styles/global";
+import { Main } from "../styles/global";
 
 
 const H1 = styled.div`
@@ -42,7 +42,7 @@ const Content = () => {
   const onChange = (e: React.FormEvent<HTMLInputElement>) => {
     dispatch(setParams({ search: e.currentTarget.value, page: 1 }));
     dispatch(setIsAccumlateData(false));
-    dispatch(fetchTodos({...params, search: e.currentTarget.value}) as unknown as AnyAction);
+    dispatch(fetchTodos({ ...params, search: e.currentTarget.value }) as unknown as AnyAction);
   }
 
   useEffect(() => {

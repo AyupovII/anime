@@ -6,23 +6,32 @@ import { AnyAction } from "@reduxjs/toolkit";
 import { NavLink, useRoutes } from "react-router-dom";
 import { FlexBox } from "../styles/global";
 
-const Box = styled.div`
+const BoxItem = styled.div`
     padding-bottom: 15px;
     cursor: pointer;
-    max-width: 100px;
+    width: 100px;
     &:hover{
       background-color: rgba(0,0,0,0.3);
       filter: brightness(40%);
     }
-    /* @media (min-width: 300px){
-      width: 50%;
+    & > img{
+     
+      @media (max-width: 600px){
+      width: 150px;
     }
-    @media (min-width: 600px){
-      width: 33%;
+     @media (max-width: 580px){
+      width: 200px
     }
-    @media (min-width: 900px){
-      width: 15%;
-    } */
+    }
+   
+    @media (max-width: 600px){
+      width: 150px
+    } @media (max-width: 580px){
+      width: 200px
+    }
+    @media (max-width: 520px){
+      width: 300px
+    }
   `
 const Title = styled.div`
     text-align: center;
@@ -32,11 +41,14 @@ const Title = styled.div`
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
-  `
+  `;
+const Box = styled.div`
+  padding: 10px 0px;
+`
 const AnimeList = () => {
   const animeList = useSelector((state: any) => state.todos.data) as Array<any>;
   const loading = useSelector((state: any) => state.todos.loading);
-
+console.log(animeList);
   const dispatch = useDispatch();
 
   const observer = useRef<IntersectionObserver | null>(null);
@@ -57,31 +69,31 @@ const AnimeList = () => {
     if (node) observer.current.observe(node);
   }, [hasMore, loading]);
 
-  return (<>
+  return (<Box>
     {<FlexBox>
       {
         animeList?.map((anime: any, index: number) => {
           return (
-            <NavLink to={`${anime.id}`} >
-              <Box
-                key={`${index}_${anime.id}`}
+            <NavLink to={`${anime.id}`} key={`${index}_${anime.id}`}>
+              <BoxItem
+                
                 ref={(animeList?.length === index + 1) ? observerBlock : null}
               >
                 <img
                   src={"https://shikimori.one/" + anime.image.x96}
-                  alt={anime.russian} width={"100px"} height={"150px"}
+                  alt={anime.russian}
                 />
                 <Title>
                   {
                     anime.russian ? anime.russian : anime.name
                   }</Title>
-              </Box>
+              </BoxItem>
             </NavLink>
           )
         })
       }
     </FlexBox>}
-  </>
+  </Box>
   )
 }
 

@@ -20,8 +20,6 @@ const todoSlice = createSlice({
       search: "",
       page: 1,
     },
-    ///////////
-    animeData: {}
   },
   reducers: {
     setParams: (state, action)=>{
@@ -41,16 +39,6 @@ const todoSlice = createSlice({
       state.hasMore = action.payload.length >= state.params.limit;
     },
     [fetchTodos.rejected]: (state, action) => { },
-    //////////////////////
-    // [fetchAnime.pending]: (state, action) => {
-    //   state.loading = true;
-    // },
-    // [fetchAnime.fulfilled]: (state, action) => {
-    //   console.log(111111111111);
-    //   state.animeData = action.payload;
-    //   state.loading = false;
-    // },
-    // [fetchAnime.rejected]: (state, action) => { },
   }
 });
 
