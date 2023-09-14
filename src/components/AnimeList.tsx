@@ -17,12 +17,12 @@ const BoxItem = styled.div`
     & > img{
      
       @media (max-width: 600px){
-      width: 150px;
+      width: 130px;
     }
     }
    
     @media (max-width: 600px){
-      width: 150px
+      width: 130px
     } 
   `
 const Title = styled.div`
