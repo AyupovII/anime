@@ -25,7 +25,6 @@ const anime = createSlice({
       state.loading = true;
     },
     [fetchAnime.fulfilled]: (state, action) => {
-      console.log("111111111111", action.payload);
       state.animeData = action.payload;
       state.loading = false;
     },

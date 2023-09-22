@@ -19,6 +19,7 @@ const todoSlice = createSlice({
       limit: 50,
       search: "",
       page: 1,
+      censored: true,
     },
   },
   reducers: {
