@@ -6,7 +6,7 @@ import { fetchAnime } from "../toolkitRedux/anime";
 import { FlexBox, Main, TitleBlock } from "../styles/global";
 import styled from "styled-components";
 import ReactStars from 'react-stars'
-import Loading from "../components/Loading";
+import Loading from "../components/Loader";
 
 const Anime = () => {
   const data = useSelector((state: any) => state.anime.animeData);
