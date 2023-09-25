@@ -1,29 +1,40 @@
 import { useCallback, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { styled } from "styled-components";
+import { styled, keyframes } from "styled-components";
 import { fetchTodos, setIsAccumlateData, setParams } from "../toolkitRedux/toolkitReducer";
 import { AnyAction } from "@reduxjs/toolkit";
-import { NavLink, useRoutes } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { FlexBox } from "../styles/global";
+import backgroundIcon from "../assest/img/backgroundIcon.jpg"
 
+
+export const ImageBox = styled.div`
+  background: url(${backgroundIcon}) no-repeat center center;
+  height: 150px;
+  @media (max-width: 600px){
+    height: 210px;
+    }
+`
 const BoxItem = styled.div`
     padding-bottom: 15px;
     cursor: pointer;
     width: 100px;
+    
     &:hover{
       background-color: rgba(0,0,0,0.3);
       filter: brightness(40%);
     }
-    & > img{
-     
+    & > ${ImageBox} > img{
+      width: 100%;
+
       @media (max-width: 600px){
       width: 130px;
     }
     }
    
-    @media (max-width: 600px){
+    /* @media (max-width: 600px){
       width: 130px
-    } 
+    }  */
   `
 const Title = styled.div`
     text-align: center;
@@ -33,14 +44,16 @@ const Title = styled.div`
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+    padding: 5px 5px;
   `;
 const Box = styled.div`
   padding: 10px 0px;
 `
+
 const AnimeList = () => {
   const animeList = useSelector((state: any) => state.todos.data) as Array<any>;
   const loading = useSelector((state: any) => state.todos.loading);
-console.log(animeList);
+  console.log(animeList);
   const dispatch = useDispatch();
 
   const observer = useRef<IntersectionObserver | null>(null);
@@ -62,19 +75,21 @@ console.log(animeList);
   }, [hasMore, loading]);
 
   return (<Box>
-    {<FlexBox>
+    {<FlexBox style={{justifyContent: "flex-start"}}>
       {
         animeList?.map((anime: any, index: number) => {
           return (
             <NavLink to={`${anime.id}`} key={`${index}_${anime.id}`}>
               <BoxItem
-                
+
                 ref={(animeList?.length === index + 1) ? observerBlock : null}
               >
-                <img
-                  src={"https://shikimori.one/" + anime.image.x96}
-                  alt={anime.russian}
-                />
+                <ImageBox>
+                  <img
+                    src={"https://shikimori.one/" + anime.image.x96}
+                    alt={anime.russian}
+                  />
+                </ImageBox>
                 <Title>
                   {
                     anime.russian ? anime.russian : anime.name

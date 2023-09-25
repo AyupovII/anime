@@ -8,7 +8,6 @@ export const FlexBox = styled.div<PropsFlexBox>`
 display: flex;
 flex-wrap: wrap;
 flex-direction: row;
-justify-content: space-between;
 column-gap: 15px;
 flex-direction: ${p=>p.direction};
 `;
