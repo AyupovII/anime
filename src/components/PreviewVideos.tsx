@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import ReactPlayer from "react-player";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchVideo } from "../toolkitRedux/video";
@@ -38,18 +38,30 @@ const PreviewVideos = ({ id }: { id: string }) => {
   const videoData = useSelector((state: any) => state.video.videoData);
   console.log(videoData);
   const dispatch = useDispatch();
-
   const arrayYouTubeVideos = videoData.filter((filterVideo: any) => filterVideo.hosting === "youtube");
+  const [video, setVideo] = useState(arrayYouTubeVideos?.[0] ?? "")
+  console.log(arrayYouTubeVideos.url);
+  const [ playState, setPlayState ] = useState(false);
+  const onPlayHandler = () => {
+    setPlayState(true)
+  };
+  const onHandlerItem = (index: number)=>{
+    setVideo(arrayYouTubeVideos[index])
+    onPlayHandler()
+  }
 
   useEffect(() => {
     dispatch(fetchVideo(id) as unknown as AnyAction);
   }, [])
 
   return <VideoContent>
-    <ReactPlayer controls url={arrayYouTubeVideos[0]} />
+    <ReactPlayer controls url={video.url} onPlay={() => onPlayHandler}
+      playing={playState}
+
+    />
     <VideoList>
-      {arrayYouTubeVideos.map((video: any) => {
-        return <VideoItem>
+      {arrayYouTubeVideos.map((video: any, index: number) => {
+        return <VideoItem onClick={()=> onHandlerItem(index)}>
           <ImageBox style={{ width: "120px", height: "90px" }}>
             <img src={video.image_url} alt={video.name} width={"120px"} />
           </ImageBox>
