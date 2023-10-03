@@ -6,6 +6,7 @@ import { AnyAction } from "@reduxjs/toolkit";
 import { NavLink } from "react-router-dom";
 import { FlexBox } from "../styles/global";
 import backgroundIcon from "../assest/img/backgroundIcon.jpg"
+import Filter from "./Filter";
 
 
 export const ImageBox = styled.div`
@@ -75,7 +76,8 @@ const AnimeList = () => {
   }, [hasMore, loading]);
 
   return (<Box>
-    {<FlexBox style={{justifyContent: "flex-start"}}>
+    <Filter />
+    {<FlexBox style={{ justifyContent: "flex-start" }}>
       {
         animeList?.map((anime: any, index: number) => {
           return (

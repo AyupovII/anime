@@ -7,8 +7,6 @@ import { FlexBox, Main, TitleBlock } from "../styles/global";
 import styled from "styled-components";
 import ReactStars from 'react-stars'
 import Loading from "../components/Loader";
-import { fetchVideo } from "../toolkitRedux/video";
-import ReactPlayer from "react-player";
 import PreviewVideos from "../components/PreviewVideos";
 
 const Anime = () => {

@@ -6,6 +6,13 @@ export const fetchTodos = createAsyncThunk('todos/fetchTodos',
   async (params) => {
     const { data } = await axios.get("https://shikimori.one/api/animes", { params });
     return data;
+  });
+
+  export const fetchGenres = createAsyncThunk('todos/fetchGenres',
+  async () => {
+    const  {data}  = await axios.get("https://shikimori.one/api/genres");
+    console.log(data);
+    return data;
   })
 
 const todoSlice = createSlice({
@@ -15,11 +22,20 @@ const todoSlice = createSlice({
     data: [],
     isAccumlateData: false,
     hasMore: true,
+    genresList: [],
     params: {
       limit: 50,
-      search: "",
+      search: null,
       page: 1,
       censored: true,
+      genre: [],
+      studio: [],
+      franchise: [],
+      duration: null,
+      rating: null,
+      status: null,
+      kind:  null,
+      order: null,
     },
   },
   reducers: {
@@ -40,6 +56,11 @@ const todoSlice = createSlice({
       state.hasMore = action.payload.length >= state.params.limit;
     },
     [fetchTodos.rejected]: (state, action) => { },
+    //////////////////////
+    [fetchGenres.fulfilled]: (state, action) => {
+      state.genresList = action.payload.filter((el)=>el.entry_type==="Anime");
+      console.log(action.payload);
+    },
   }
 });
 
