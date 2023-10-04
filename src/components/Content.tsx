@@ -1,11 +1,13 @@
 import styled from "styled-components";
 import loopIcon from "../assest/img/loop.png"
-import { useEffect } from "react";
+import filterIcon from "../assest/img/filterIcon.png"
+import { BaseSyntheticEvent, useCallback, useEffect, useState } from "react";
 import AnimeList from "./AnimeList";
 import { fetchTodos, setIsAccumlateData, setParams } from "../toolkitRedux/toolkitReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { AnyAction } from "@reduxjs/toolkit";
 import { Main } from "../styles/global";
+import { debounce } from "lodash"
 
 
 const H1 = styled.div`
@@ -27,10 +29,22 @@ const InputContainer = styled.div`
     width: 100%;
     box-sizing: border-box;
    };
-   & > img{
+   & img:first-child{
     position: absolute;
     height: 30px;
     padding: 12px;
+   };
+   & img:last-child{
+    position: absolute;
+    padding: 7px;
+    right: 40px;
+    width: 35px;
+    color: grey;
+    cursor: pointer;
+    &:hover{
+      background-color: #acacac8b;
+      border-radius: 8px;
+    }
    } 
   `
 
@@ -39,24 +53,28 @@ const Content = () => {
   const params = useSelector((state: any) => state.todos.params);
   const search = useSelector((state: any) => state.todos.params.search);
   const dispatch = useDispatch();
-  const onChange = (e: React.FormEvent<HTMLInputElement>) => {
-    dispatch(setParams({ search: e.currentTarget.value, page: 1 }));
-    dispatch(setIsAccumlateData(false));
-    dispatch(fetchTodos({ ...params, search: e.currentTarget.value }) as unknown as AnyAction);
-  }
+  const [filterOpen, setFilterOpen] = useState(false);
+  
+  const onChange = useCallback((async (e: BaseSyntheticEvent) => {
+      console.log(e);
+      dispatch(setParams({ search: e.target.value, page: 1 }));
+      dispatch(setIsAccumlateData(false));
+      debounceFunc(e);
+  }),[]);
 
-  useEffect(() => {
-    dispatch(fetchTodos(params) as unknown as AnyAction);
-    console.log(2);
-  }, [search])
+
+const debounceFunc=(debounce((e: BaseSyntheticEvent)=>{
+  dispatch(fetchTodos({ ...params, search: e.target.value }) as unknown as AnyAction)
+}, 600));
 
   return <Main>
     <H1>Поиск аниме</H1>
     <InputContainer>
       <img src={loopIcon} alt="Поиск" />
       <input type="text" placeholder="Что вы ищете?" value={search} onChange={onChange} />
+      <img src={filterIcon} alt="Фильтр" onClick={()=>setFilterOpen(!filterOpen)}/>
     </InputContainer>
-    <AnimeList />
+    <AnimeList filterOpen={filterOpen} />
   </Main>
 };
 

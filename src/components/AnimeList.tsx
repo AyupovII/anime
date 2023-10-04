@@ -51,10 +51,9 @@ const Box = styled.div`
   padding: 10px 0px;
 `
 
-const AnimeList = () => {
+const AnimeList = ({ filterOpen }: { filterOpen: boolean }) => {
   const animeList = useSelector((state: any) => state.todos.data) as Array<any>;
   const loading = useSelector((state: any) => state.todos.loading);
-  console.log(animeList);
   const dispatch = useDispatch();
 
   const observer = useRef<IntersectionObserver | null>(null);
@@ -64,8 +63,6 @@ const AnimeList = () => {
     if (loading) return
     if (observer.current) observer.current.disconnect();
     observer.current = new IntersectionObserver(enteries => {
-      console.log("Visible1", hasMore);
-
       if (enteries[0].isIntersecting && hasMore) {
         dispatch(setIsAccumlateData(true));
         dispatch(setParams({ page: params.page + 1 }))
@@ -76,7 +73,7 @@ const AnimeList = () => {
   }, [hasMore, loading]);
 
   return (<Box>
-    <Filter />
+    <Filter filterOpen={filterOpen} />
     {<FlexBox style={{ justifyContent: "flex-start" }}>
       {
         animeList?.map((anime: any, index: number) => {
