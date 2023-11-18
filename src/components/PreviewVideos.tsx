@@ -36,7 +36,6 @@ const Title = styled.div`
 
 const PreviewVideos = ({ id }: { id: string }) => {
   const videoData = useSelector((state: any) => state.video.videoData);
-  console.log(videoData);
   const dispatch = useDispatch();
   const arrayYouTubeVideos = videoData.filter((filterVideo: any) => filterVideo.hosting === "youtube");
   const [video, setVideo] = useState(arrayYouTubeVideos?.[0] ?? "");

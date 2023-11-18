@@ -46,19 +46,18 @@ const Box = styled.div`
 const AnimeList = () => {
   const animeList = useSelector((state: any) => state.todos.data) as Array<any>;
   const loading = useSelector((state: any) => state.todos.loading);
-  console.log(animeList);
   const dispatch = useDispatch();
 
   const observer = useRef<IntersectionObserver | null>(null);
   const params = useSelector((state: any) => state.todos.params);
   const hasMore = useSelector((state: any) => state.todos.hasMore);
+  const openFilter = useSelector((state: any) => state.todos.openFilter);
+
 
   const observerBlock = useCallback((node: HTMLInputElement) => {
     if (loading) return
     if (observer.current) observer.current.disconnect();
     observer.current = new IntersectionObserver(enteries => {
-      console.log("Visible1", hasMore);
-
       if (enteries[0].isIntersecting && hasMore) {
         dispatch(setIsAccumlateData(true));
         dispatch(setParams({ page: params.page + 1 }))
@@ -69,8 +68,8 @@ const AnimeList = () => {
   }, [hasMore, loading]);
 
   return (<Box>
-    <Filter />
-    {<GridBox>
+    {openFilter && <Filter />}
+    {animeList.length ?<GridBox>
       {
         animeList?.map((anime: any, index: number) => {
           return (
@@ -94,7 +93,7 @@ const AnimeList = () => {
           )
         })
       }
-    </GridBox>}
+    </GridBox>: !loading ? "Ничего не найдено": null}
   </Box>
   )
 }

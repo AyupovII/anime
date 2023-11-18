@@ -11,7 +11,6 @@ export const fetchTodos = createAsyncThunk('todos/fetchTodos',
   export const fetchGenres = createAsyncThunk('todos/fetchGenres',
   async () => {
     const  {data}  = await axios.get("https://shikimori.one/api/genres");
-    console.log(data);
     return data;
   })
 
@@ -19,6 +18,7 @@ const todoSlice = createSlice({
   name: "todos",
   initialState: {
     loading: false,
+    openFilter:false,
     data: [],
     isAccumlateData: false,
     hasMore: true,
@@ -42,6 +42,9 @@ const todoSlice = createSlice({
     setParams: (state, action)=>{
       state.params={...state.params, ...action.payload}
     },
+    setOpenFilter: (state, action)=>{
+      state.openFilter=action.payload;
+    },
     setIsAccumlateData: (state, action) => {
       state.isAccumlateData = action.payload
     }
@@ -59,10 +62,9 @@ const todoSlice = createSlice({
     //////////////////////
     [fetchGenres.fulfilled]: (state, action) => {
       state.genresList = action.payload.filter((el)=>el.entry_type==="Anime");
-      console.log(action.payload);
     },
   }
 });
 
-export const { fetchTodoExample, setIsAccumlateData, setParams } = todoSlice.actions;
+export const { fetchTodoExample, setIsAccumlateData, setParams, setOpenFilter } = todoSlice.actions;
 export default todoSlice.reducer;
