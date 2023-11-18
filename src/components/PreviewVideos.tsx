@@ -39,8 +39,8 @@ const PreviewVideos = ({ id }: { id: string }) => {
   console.log(videoData);
   const dispatch = useDispatch();
   const arrayYouTubeVideos = videoData.filter((filterVideo: any) => filterVideo.hosting === "youtube");
-  const [video, setVideo] = useState(arrayYouTubeVideos?.[0] ?? "")
-  console.log(arrayYouTubeVideos.url);
+  const [video, setVideo] = useState(arrayYouTubeVideos?.[0] ?? "");
+
   const [ playState, setPlayState ] = useState(false);
   const onPlayHandler = () => {
     setPlayState(true)

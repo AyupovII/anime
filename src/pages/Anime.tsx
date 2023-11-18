@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { AnyAction } from "@reduxjs/toolkit";
 import { fetchAnime } from "../toolkitRedux/anime";
-import { FlexBox, Main, TitleBlock } from "../styles/global";
+import { GridBox, Main, TitleBlock } from "../styles/global";
 import styled from "styled-components";
 import ReactStars from 'react-stars'
 import Loading from "../components/Loader";
@@ -13,7 +13,7 @@ const Anime = () => {
   const data = useSelector((state: any) => state.anime.animeData);
   const loading = useSelector((state: any) => state.anime.loading);
   const dispatch = useDispatch();
-  const {id = ""} = useParams();
+  const { id = "" } = useParams();
   useEffect(() => {
     dispatch(fetchAnime(id) as unknown as AnyAction);
   }, [])
@@ -28,7 +28,7 @@ const Anime = () => {
         <div>
           {data?.russian + " / " + data.name}
         </div>
-        <FlexBox direction="column" ><FlexBox style={{ justifyContent: "normal", columnGap: "30px" }}>
+        <GridBox direction="column" ><GridBox style={{ justifyContent: "normal", columnGap: "30px" }}>
           <InfoBLock>
             <img
               src={"https://shikimori.one/" + data.image?.original}
@@ -46,7 +46,7 @@ const Anime = () => {
             <div>Альтернативные названия: {data.license_name_ru}</div>
             <div>У аниме: {data.kind}</div>
           </InfoBLock>
-          <FlexBox direction={"column"} style={{ justifyContent: "normal" }}>
+          <GridBox direction={"column"} style={{ justifyContent: "normal" }}>
             {/* ////////////////// */}
             <InfoBLock>
               <TitleBlock>РЕЙТИНГ</TitleBlock>
@@ -63,18 +63,18 @@ const Anime = () => {
               <TitleBlock>СТУДИИ</TitleBlock>
               <div>{data.studios?.map(({ name }: { name: string }) => name).join(", ")}</div>
             </InfoBLock>
-          </FlexBox>
+          </GridBox>
 
-        </FlexBox>
+        </GridBox>
           <InfoBLock>
             <TitleBlock>ОПИСАНИЕ</TitleBlock>
             <div><script>{data.description_html}</script></div>
             <div dangerouslySetInnerHTML={{ __html: data.description_html }} />
           </InfoBLock>
-        </FlexBox>
-        <PreviewVideos  id = {id}/>
-        </>}
-        
+        </GridBox>
+        <PreviewVideos id={id} />
+      </>}
+
   </Main >)
 }
 

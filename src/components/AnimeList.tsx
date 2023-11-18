@@ -4,7 +4,7 @@ import { styled, keyframes } from "styled-components";
 import { fetchTodos, setIsAccumlateData, setParams } from "../toolkitRedux/toolkitReducer";
 import { AnyAction } from "@reduxjs/toolkit";
 import { NavLink } from "react-router-dom";
-import { FlexBox } from "../styles/global";
+import { GridBox } from "../styles/global";
 import backgroundIcon from "../assest/img/backgroundIcon.jpg"
 import Filter from "./Filter";
 
@@ -12,30 +12,22 @@ import Filter from "./Filter";
 export const ImageBox = styled.div`
   background: url(${backgroundIcon}) no-repeat center center;
   height: 150px;
-  @media (max-width: 600px){
-    height: 210px;
-    }
 `
 const BoxItem = styled.div`
     padding-bottom: 15px;
     cursor: pointer;
     width: 100px;
+    height: 210px;
+    border-radius: 5px;
     
     &:hover{
       background-color: rgba(0,0,0,0.3);
       filter: brightness(40%);
     }
     & > ${ImageBox} > img{
+      border-radius: 5px;
       width: 100%;
-
-      @media (max-width: 600px){
-      width: 130px;
-    }
-    }
-   
-    /* @media (max-width: 600px){
-      width: 130px
-    }  */
+    };
   `
 const Title = styled.div`
     text-align: center;
@@ -60,6 +52,7 @@ const AnimeList = () => {
   const observer = useRef<IntersectionObserver | null>(null);
   const params = useSelector((state: any) => state.todos.params);
   const hasMore = useSelector((state: any) => state.todos.hasMore);
+
   const observerBlock = useCallback((node: HTMLInputElement) => {
     if (loading) return
     if (observer.current) observer.current.disconnect();
@@ -77,11 +70,11 @@ const AnimeList = () => {
 
   return (<Box>
     <Filter />
-    {<FlexBox style={{ justifyContent: "flex-start" }}>
+    {<GridBox>
       {
         animeList?.map((anime: any, index: number) => {
           return (
-            <NavLink to={`${anime.id}`} key={`${index}_${anime.id}`}>
+            <NavLink to={`${anime.id}`} key={`${index}_${anime.id}`} style={{ textDecoration: "none", color: "black" }}>
               <BoxItem
 
                 ref={(animeList?.length === index + 1) ? observerBlock : null}
@@ -101,7 +94,7 @@ const AnimeList = () => {
           )
         })
       }
-    </FlexBox>}
+    </GridBox>}
   </Box>
   )
 }

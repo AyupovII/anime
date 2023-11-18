@@ -1,4 +1,6 @@
 body {
+  background: url("./assest/img/fon.jpg") no-repeat rgb(30,30,30) fixed center center;
+  background-size: cover;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
