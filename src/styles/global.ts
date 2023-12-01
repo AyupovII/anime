@@ -1,10 +1,6 @@
 import { styled } from "styled-components";
 
-interface PropsFlexBox {
-  direction?: "row" | "column"
-}
-
-export const GridBox = styled.div<PropsFlexBox>`
+export const GridBox = styled.div`
 display: grid;
 grid-template-columns: repeat(10, 1fr);
 grid-template-rows: repeat(5, 1fr);
@@ -41,7 +37,7 @@ export const TitleBlock = styled.div`
 background-color: #d6d3d3;
 font-weight: 600;
 color: black;
-padding-left: 15px;
+padding-left: 10px;
 width: 100%;
 `;
 

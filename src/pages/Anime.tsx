@@ -8,6 +8,7 @@ import styled from "styled-components";
 import ReactStars from 'react-stars'
 import Loading from "../components/Loader";
 import PreviewVideos from "../components/PreviewVideos";
+import MainInfo from "../components/MainInfo";
 
 const Anime = () => {
   const data = useSelector((state: any) => state.anime.animeData);
@@ -19,59 +20,50 @@ const Anime = () => {
   }, [])
 
   const InfoBLock = styled.div`
-    min-width: 150px;
+    min-width: 250px;
     
   `
+  const Box = styled.div`
+    
+  `
+  const MainInfoStyle = styled.div`
+    display: grid;
+grid-template-columns: repeat(4, 1fr);
+grid-template-rows: repeat(2, 1fr);
+grid-column-gap: 15px;
+grid-row-gap: 10px;
+  `
+  const InfoContent = styled.div`
+        display: grid;
+grid-template-columns: repeat(3, 1fr);
+grid-template-rows: repeat(1, 1fr);
+grid-column-gap: 15px;
+grid-row-gap: 10px;
+@media (max-width: 600px) {
+  grid-template-columns: repeat(1, 1fr);
+grid-template-rows: repeat(2, 1fr);
+}
+  `;
   return (<Main>
     {loading ? <Loading /> :
       <>
         <div>
           {data?.russian + " / " + data.name}
         </div>
-        <GridBox direction="column" ><GridBox style={{ justifyContent: "normal", columnGap: "30px" }}>
+        <InfoContent>
           <InfoBLock>
             <img
               src={"https://shikimori.one/" + data.image?.original}
               alt={data.name}
             />
           </InfoBLock>
-          <InfoBLock>
-            <TitleBlock>ИНФОРМАЦИЯ</TitleBlock>
-            <div>Тип: {data.kind}</div>
-            <div>Эпизоды: {data.episodes}</div>
-            <div>Длительность эпизода: {data.duration} мин</div>
-            <div>Статус:{data.status}</div>
-            <div>Жанр: {data.genres?.[0]?.russian}</div>
-            <div>Рейтинг: {data.rating}</div>
-            <div>Альтернативные названия: {data.license_name_ru}</div>
-            <div>У аниме: {data.kind}</div>
-          </InfoBLock>
-          <GridBox direction={"column"} style={{ justifyContent: "normal" }}>
-            {/* ////////////////// */}
-            <InfoBLock>
-              <TitleBlock>РЕЙТИНГ</TitleBlock>
-              <div>{data.score}</div>
-              <ReactStars
-                value={data.score / 2}
-                edit={false}
-                count={5}
-                size={50}
-                color2={'#ffd700'} />
-            </InfoBLock>
-            {/* ///////////// */}
-            <InfoBLock>
-              <TitleBlock>СТУДИИ</TitleBlock>
-              <div>{data.studios?.map(({ name }: { name: string }) => name).join(", ")}</div>
-            </InfoBLock>
-          </GridBox>
-
-        </GridBox>
-          <InfoBLock>
-            <TitleBlock>ОПИСАНИЕ</TitleBlock>
-            <div><script>{data.description_html}</script></div>
-            <div dangerouslySetInnerHTML={{ __html: data.description_html }} />
-          </InfoBLock>
-        </GridBox>
+          <MainInfo data={data} />
+        </InfoContent>
+        <InfoBLock>
+          <TitleBlock>ОПИСАНИЕ</TitleBlock>
+          <div><script>{data.description_html}</script></div>
+          <div dangerouslySetInnerHTML={{ __html: data.description_html }} />
+        </InfoBLock>
         <PreviewVideos id={id} />
       </>}
 
