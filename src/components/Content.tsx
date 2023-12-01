@@ -83,7 +83,7 @@ const Content = () => {
       <input type="text" placeholder="Что вы ищете?" defaultValue={search} onChange={debouncedChangeHandler} />
       <ImgFilter src={filterIcon} alt="Фильтр" onClick={onClickFilter} isChange={!!genresChange.length} />
     </InputContainer>
-    <AnimeList />
+    <AnimeList filterOpen={openFilter} />
   </Main>
 };
 

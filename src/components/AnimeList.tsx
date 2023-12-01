@@ -43,7 +43,7 @@ const Box = styled.div`
   padding: 10px 0px;
 `
 
-const AnimeList = () => {
+const AnimeList = ({ filterOpen }: { filterOpen: boolean }) => {
   const animeList = useSelector((state: any) => state.todos.data) as Array<any>;
   const loading = useSelector((state: any) => state.todos.loading);
   const dispatch = useDispatch();

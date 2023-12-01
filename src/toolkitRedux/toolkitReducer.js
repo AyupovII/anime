@@ -4,11 +4,16 @@ import axios from "axios";
 export const fetchTodos = createAsyncThunk('todos/fetchTodos',
   /**  @param params {{ search?: string, page?: number }} */
   async (params) => {
-    const { data } = await axios.get("https://shikimori.one/api/animes", { params });
+    const notEmptyParams = { ...params };
+    Object.keys(notEmptyParams).forEach((key) => {
+      if (notEmptyParams[key] === undefined || notEmptyParams[key] === null || notEmptyParams[key] === "")
+        delete notEmptyParams[key];
+    });
+    const { data } = await axios.get("https://shikimori.one/api/animes", { params: notEmptyParams });
     return data;
   });
 
-  export const fetchGenres = createAsyncThunk('todos/fetchGenres',
+export const fetchGenres = createAsyncThunk('todos/fetchGenres',
   async () => {
     const  {data}  = await axios.get("https://shikimori.one/api/genres");
     return data;
@@ -34,13 +39,13 @@ const todoSlice = createSlice({
       duration: null,
       rating: null,
       status: null,
-      kind:  null,
+      kind: null,
       order: null,
     },
   },
   reducers: {
-    setParams: (state, action)=>{
-      state.params={...state.params, ...action.payload}
+    setParams: (state, action) => {
+      state.params = { ...state.params, ...action.payload }
     },
     setOpenFilter: (state, action)=>{
       state.openFilter=action.payload;
