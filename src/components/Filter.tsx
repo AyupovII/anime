@@ -46,7 +46,7 @@ const BlockFilter = styled.div`
   gap: 12px;
 `
 
-const Filter = ({ filterOpen=false }: { filterOpen?: boolean }) => {
+const Filter = ({ filterOpen = false }: { filterOpen?: boolean }) => {
   const dispatch = useDispatch();
   const genresList = useSelector((state: any) => state.todos.genresList);
   const params = useSelector((state: any) => state.todos.params);
@@ -103,22 +103,26 @@ const Filter = ({ filterOpen=false }: { filterOpen?: boolean }) => {
     dispatch(setParams({ [type]: e.currentTarget.value ?? null }))
   }
 
-  return (<Container filterOpen={true}>
-    <BlockSelect>
-      <Select options={optionsRating} onChange={(e) => onchange(e, "rating")} />
-      <Select options={optionOrder} onChange={(e) => onchange(e, "order")} />
-      <Select options={optionsStatus} onChange={(e) => onchange(e, "status")} />
-    </BlockSelect>
-    <BlockFilters>
-      {genresList.map((genre: any) => {
-        return <BlockFilter key={genre.id}>
-          <label>
-            <input type="checkbox" onChange={() => onCheckedHandler(genre)} checked={genreState.find((el: any) => el === genre.id)} />
-            {genre.russian}
-          </label></BlockFilter>
-      })}
-    </BlockFilters>
-  </Container>
+  return (
+    <Container filterOpen={true} style={{ backgroundColor: "rgba(0,0,0,0.3)" }}>
+      <BlockSelect>
+        <Select options={optionsRating} onChange={(e) => onchange(e, "rating")} />
+        <Select options={optionOrder} onChange={(e) => onchange(e, "order")} />
+        <Select options={optionsStatus} onChange={(e) => onchange(e, "status")} />
+      </BlockSelect>
+      <BlockFilters>
+        {genresList?.map((genre: any) => {
+          return (
+            <BlockFilter key={genre.id}>
+              <label>
+                <input type="checkbox" onChange={() => onCheckedHandler(genre)} checked={genreState.find((el: any) => el === genre.id)} />
+                {genre.russian}
+              </label>
+            </BlockFilter>
+          )
+        })}
+      </BlockFilters>
+    </Container>
   )
 }
 

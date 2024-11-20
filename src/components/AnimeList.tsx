@@ -11,24 +11,12 @@ import Filter from "./Filter";
 
 export const ImageBox = styled.div`
   background: url(${backgroundIcon}) no-repeat center center;
-  height: 150px;
+  min-height: 150px;
+  /* overflow: hidden; */
+  &>img{
+    transition: all 0.3s ease-in-out;
+  }
 `
-const BoxItem = styled.div`
-    padding-bottom: 15px;
-    cursor: pointer;
-    width: 100px;
-    height: 210px;
-    border-radius: 5px;
-    
-    &:hover{
-      background-color: rgba(0,0,0,0.3);
-      filter: brightness(40%);
-    }
-    & > ${ImageBox} > img{
-      border-radius: 5px;
-      width: 100%;
-    };
-  `
 const Title = styled.div`
     text-align: center;
     font-size: 15px;
@@ -39,6 +27,33 @@ const Title = styled.div`
     text-overflow: ellipsis;
     padding: 5px 5px;
   `;
+
+const BoxItem = styled.div`
+    cursor: pointer;
+    min-height: 210px;
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    max-width: 200px;
+    
+    &:hover{
+      background-color: rgba(0,0,0,0.3);
+      & > ${Title}{
+        color: white;
+    };
+    & > ${ImageBox} > img{
+      /* filter: brightness(40%); */
+      transform: scale(1.1);
+    };
+    }
+    & > ${ImageBox} > img{
+      border-radius: 5px;
+      width: 100%;
+    };
+    & > ${ImageBox}{
+      background-size: 105%;
+    };
+  `
 const Box = styled.div`
   padding: 10px 0px;
 `
@@ -67,34 +82,37 @@ const AnimeList = ({ filterOpen }: { filterOpen: boolean }) => {
     if (node) observer.current.observe(node);
   }, [hasMore, loading]);
 
-  return (<Box>
-    {openFilter && <Filter />}
-    {animeList.length ?<GridBox>
-      {
-        animeList?.map((anime: any, index: number) => {
-          return (
-            <NavLink to={`${anime.id}`} key={`${index}_${anime.id}`} style={{ textDecoration: "none", color: "black" }}>
-              <BoxItem
+  return (
+    <Box>
+      {openFilter && <Filter />}
+      {animeList.length ?
+        <GridBox>
+          {
+            animeList?.map((anime: any, index: number) => {
+              return (
+                <NavLink to={`${anime.id}`} key={`${index}_${anime.id}`} style={{ textDecoration: "none", color: "black", flex: 1, flexShrink: 0, flexGrow: 1, flexBasis: 120 }}>
+                  <BoxItem
 
-                ref={(animeList?.length === index + 1) ? observerBlock : null}
-              >
-                <ImageBox>
-                  <img
-                    src={"https://shikimori.one/" + anime.image.x96}
-                    alt={anime.russian}
-                  />
-                </ImageBox>
-                <Title>
-                  {
-                    anime.russian ? anime.russian : anime.name
-                  }</Title>
-              </BoxItem>
-            </NavLink>
-          )
-        })
-      }
-    </GridBox>: !loading ? "Ничего не найдено": null}
-  </Box>
+                    ref={(animeList?.length === index + 1) ? observerBlock : null}
+                  >
+                    <ImageBox>
+                      <img
+                        src={"https://shikimori.one/" + anime.image.x96}
+                        alt={anime.russian}
+                      />
+                    </ImageBox>
+                    <Title>
+                      {
+                        anime.russian ? anime.russian : anime.name
+                      }
+                    </Title>
+                  </BoxItem>
+                </NavLink>
+              )
+            })
+          }
+        </GridBox> : !loading ? "Ничего не найдено" : null}
+    </Box>
   )
 }
 

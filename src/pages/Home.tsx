@@ -1,9 +1,9 @@
 import Content from "../components/Content";
 
 const Home = () => {
-  return (<>
+  return (
     <Content />
-  </>)
+  )
 }
 
 export default Home;

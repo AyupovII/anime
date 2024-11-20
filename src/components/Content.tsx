@@ -18,7 +18,6 @@ padding: 10px 0;
 `
 const InputContainer = styled.div`
   display: flex;
-
    & > input{
     background-color: white;
     border-radius: 5px;
@@ -36,16 +35,16 @@ const ImgSearch = styled.img`
     height: 30px;
     padding: 12px;
 `;
-const ImgFilter = styled.img<{isChange: boolean}>`
+const ImgFilter = styled.img<{ isChange: boolean }>`
     position: absolute;
     height: 24px;
     padding: 12px;
     right: 40px;
     cursor: pointer;
-    background-color: ${(props)=>props.isChange ? " rgba(0,0,0,0.1)" : ""};
+    background-color: ${(props) => props.isChange ? " rgba(0,0,0,0.1)" : ""};
 `;
 
-const Content = () => {
+const Content: React.FC = () => {
 
   const params = useSelector((state: any) => state.todos.params);
   const search = useSelector((state: any) => state.todos.params.search);
@@ -62,7 +61,7 @@ const Content = () => {
     () => debounce(onChange, 500),
     []
   );
-  const onClickFilter=()=>{
+  const onClickFilter = () => {
     dispatch(setOpenFilter(!openFilter));
   }
 

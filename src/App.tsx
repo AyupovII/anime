@@ -10,7 +10,6 @@ function App() {
     <div className="App">
       <Header />
       <Routes>
-
         <Route path="/" element={<Navigate to="/anime" />} />
         <Route path="/anime" element={<Home />} />
         <Route path="/anime/:id" element={<Anime />} />
