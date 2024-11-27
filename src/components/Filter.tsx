@@ -104,7 +104,7 @@ const Filter = ({ filterOpen = false }: { filterOpen?: boolean }) => {
   }
 
   return (
-    <Container filterOpen={true} style={{ backgroundColor: "rgba(0,0,0,0.3)" }}>
+    <Container filterOpen={true} style={{ backgroundColor: "rgba(0,0,0,0.2)" }}>
       <BlockSelect>
         <Select options={optionsRating} onChange={(e) => onchange(e, "rating")} />
         <Select options={optionOrder} onChange={(e) => onchange(e, "order")} />

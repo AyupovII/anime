@@ -15,13 +15,15 @@ const VideoContent = styled.div`
 const VideoList = styled.div`
 overflow-y: auto;
 height: 100%;
+background-color: rgba(0,0,0,0.2);
+
 `
 const VideoItem = styled.div`
   display: flex;
   max-width: 250px;
   cursor: pointer;
   &:hover{
-    filter: brightness(40%);
+    /* filter: brightness(40%); */
     background-color: rgba(0,0,0,0.3);
   }
 `
@@ -32,6 +34,7 @@ const Title = styled.div`
   align-items: center;
   width: -webkit-fill-available;
   height: auto;
+  color: white;
 `
 
 const PreviewVideos = ({ id }: { id: string }) => {
@@ -40,11 +43,11 @@ const PreviewVideos = ({ id }: { id: string }) => {
   const arrayYouTubeVideos = videoData.filter((filterVideo: any) => filterVideo.hosting === "youtube");
   const [video, setVideo] = useState(arrayYouTubeVideos?.[0] ?? "");
 
-  const [ playState, setPlayState ] = useState(false);
+  const [playState, setPlayState] = useState(false);
   const onPlayHandler = () => {
     setPlayState(true)
   };
-  const onHandlerItem = (index: number)=>{
+  const onHandlerItem = (index: number) => {
     setVideo(arrayYouTubeVideos[index])
     onPlayHandler()
   }
@@ -56,13 +59,12 @@ const PreviewVideos = ({ id }: { id: string }) => {
   return <VideoContent>
     <ReactPlayer controls url={video.url} onPlay={() => onPlayHandler}
       playing={playState}
-
     />
     <VideoList>
       {arrayYouTubeVideos.map((video: any, index: number) => {
-        return <VideoItem onClick={()=> onHandlerItem(index)}>
-          <ImageBox style={{ width: "120px", height: "90px" }}>
-            <img src={video.image_url} alt={video.name} width={"120px"} />
+        return <VideoItem onClick={() => onHandlerItem(index)}>
+          <ImageBox style={{ width: "100%", height: "100%", minHeight: "100px" }}>
+            <img src={video.image_url} alt={video.name} width={"100%"} height={"100%"} />
           </ImageBox>
           <Title>{video.name}</Title>
         </VideoItem>

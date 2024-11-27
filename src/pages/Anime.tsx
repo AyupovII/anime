@@ -20,29 +20,28 @@ const Anime = () => {
   }, [])
 
   const InfoBLock = styled.div`
-    min-width: 250px;
-    
+    /* min-width: 250px; */
+    background-color: rgba(0,0,0,0.1);
+
   `
   const Box = styled.div`
     
   `
   const MainInfoStyle = styled.div`
     display: grid;
-grid-template-columns: repeat(4, 1fr);
-grid-template-rows: repeat(2, 1fr);
-grid-column-gap: 15px;
-grid-row-gap: 10px;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    grid-column-gap: 15px;
+    grid-row-gap: 10px;
   `
   const InfoContent = styled.div`
-        display: grid;
-grid-template-columns: repeat(3, 1fr);
-grid-template-rows: repeat(1, 1fr);
-grid-column-gap: 15px;
-grid-row-gap: 10px;
-@media (max-width: 600px) {
-  grid-template-columns: repeat(1, 1fr);
-grid-template-rows: repeat(2, 1fr);
-}
+    display: flex;
+    /* flex-wrap: wrap; */
+    column-gap: 15px;
+    row-gap: 10px;
+    @media (max-width: 768px) {
+    flex-wrap: wrap;
+};
   `;
   return (<Main>
     {loading ? <Loading /> :
@@ -65,8 +64,8 @@ grid-template-rows: repeat(2, 1fr);
           <div dangerouslySetInnerHTML={{ __html: data.description_html }} />
         </InfoBLock>
         <PreviewVideos id={id} />
-      </>}
-
+      </>
+    }
   </Main >)
 }
 
